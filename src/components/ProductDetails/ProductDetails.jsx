@@ -19,13 +19,12 @@ import {
 } from '@chakra-ui/react'
 import { StarIcon } from '@chakra-ui/icons'
 import ProductColors from '../ProductColors/ProductColors'
-import { useRouter } from 'next/router'
+
 import ProductCounter from '../ProductCounter/ProductCounter'
 
 export default function ProductDetails({ id }) {
   const dispatch = useDispatch()
   const data = useSelector(state => state.data.data)
-  const router = useRouter()
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -34,30 +33,32 @@ export default function ProductDetails({ id }) {
   }, [])
 
   const product = data && data.find(product => product.id === parseInt(id))
-  const handleAdd = (qty) => {
-    console.log('se estan agregando', qty)
+  const handleAdd = qty => {
+    alert(`se agregó ${qty} al carrito`)
   }
 
   return (
     <>
       {product ? (
         <Card
-          direction={{ base: 'column', sm: 'row' }}
+          direction={{ base: 'column', lg: 'row' }}
           overflow='hidden'
           variant='outline'
           padding='1rem'
           width='100vw'
           margin='2rem auto'
           border='none'
+          maxWidth='90vw'
         >
           <Image
             src={product.api_featured_image}
             alt='product image'
             borderRadius='lg'
-            boxSize='lg'
+            boxSize='md'
             padding='0px'
+            margin='0px auto'
+            maxWidth='%'
           />
-
           <Stack>
             <CardBody padding='0px'>
               <Text py='2'>{product.brand.toUpperCase()}</Text>
@@ -98,7 +99,10 @@ export default function ProductDetails({ id }) {
               />
             </CardBody>
 
-            <CardFooter padding='0px'>
+            <CardFooter
+              padding='0px'
+              maxWidth={{ base: '100%', md: '100%', lg: '50%' }}
+            >
               <Tabs
                 isFitted
                 variant='unstyled'
@@ -116,10 +120,18 @@ export default function ProductDetails({ id }) {
                 />
                 <TabPanels>
                   <TabPanel padding='0px'>
-                    <Text py='2'>{product.description}</Text>
+                    <Text
+                      py='2'
+                      minHeight='200px'
+                    >
+                      {product.description}
+                    </Text>
                   </TabPanel>
                   <TabPanel padding='0px'>
-                    <p>
+                    <Text
+                      py='2'
+                      minHeight='200px'
+                    >
                       Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                       Aperiam aut fuga incidunt ad ratione accusantium nam ipsa
                       nisi veniam in aliquam magni amet, similique impedit.
@@ -127,7 +139,7 @@ export default function ProductDetails({ id }) {
                       blanditiis quod minima nemo, distinctio aliquid dolorum.
                       Laboriosam, odio recusandae? Asperiores molestiae beatae
                       nesciunt, eius natus ad numquam. Nulla?
-                    </p>
+                    </Text>
                   </TabPanel>
                 </TabPanels>
               </Tabs>
