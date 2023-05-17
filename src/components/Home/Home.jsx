@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchData } from '@/store/reducers/data'
-import { Image, SimpleGrid, Text, useBreakpointValue } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Image,
+  SimpleGrid,
+  Text,
+  useBreakpointValue
+} from '@chakra-ui/react'
 import ProductCard from '@/components/Card/Card'
 import Pagination from '../Pagination/Pagination'
 import { useRouter } from 'next/router'
@@ -56,44 +63,49 @@ export default function Home() {
 
   return (
     <>
-      <main className='main'>
-        <SearchBar
-          data={data}
-          search={handleSearch}
-        />
-        <Image
-          src='images/carousel1.jpg'
-          alt='Descripción de la imagen'
-        />
-        <SimpleGrid
-          columns={cardColumns}
-          spacing={10}
-          margin='50px'
-        >
-          {currentItems &&
-            currentItems.map(item => (
-              <ProductCard
-                onClick={() => handleClick(item.id)}
-                key={item.name}
-                title={item.name}
-                description={item.description}
-                price={item.price}
-                image={item.image_link}
-              />
-            ))}
-        </SimpleGrid>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-        <Text
-          textAlign='center'
-          mt={2}
-          marginBottom='20px'
-        >
-          Page {currentPage} of {totalPages}
-        </Text>
+      <main
+        className='main'
+        style={{ width: '100%' }}
+      >
+        <Box width='100%'>
+          <Image
+            src='images/carousel1.jpg'
+            alt='Descripción de la imagen'
+          />
+          <SearchBar
+            data={data}
+            search={handleSearch}
+          />
+          <SimpleGrid
+            columns={cardColumns}
+            spacing={10}
+            margin='50px'
+          >
+            {currentItems &&
+              currentItems.map(item => (
+                <ProductCard
+                  onClick={() => handleClick(item.id)}
+                  key={item.name}
+                  title={item.name}
+                  description={item.description}
+                  price={item.price}
+                  image={item.image_link}
+                />
+              ))}
+          </SimpleGrid>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+          <Text
+            textAlign='center'
+            mt={2}
+            marginBottom='20px'
+          >
+            Page {currentPage} of {totalPages}
+          </Text>
+        </Box>
       </main>
     </>
   )

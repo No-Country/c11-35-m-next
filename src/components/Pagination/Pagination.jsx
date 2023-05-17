@@ -13,6 +13,28 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
     }
   }
 
+  const renderPageButtons = () => {
+    const visiblePages = Math.min(totalPages, 5) // Máximo de 5 páginas visibles
+    const startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2)) // Primera página visible
+    const endPage = Math.min(startPage + visiblePages - 1, totalPages) // Última página visible
+
+    const pageButtons = []
+    for (let i = startPage; i <= endPage; i++) {
+      pageButtons.push(
+        <Button
+          key={i}
+          onClick={() => onPageChange(i)}
+          variant={currentPage === i ? 'solid' : 'outline'}
+          bg={currentPage === i ? '#C43F6D' : ''}
+          textColor={currentPage === i ? '#FAFAFA' : ''}
+        >
+          {i}
+        </Button>
+      )
+    }
+    return pageButtons
+  }
+
   return (
     <Flex
       justifyContent='center'
@@ -26,19 +48,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
       >
         Prev
       </Button>
-      <HStack spacing={2}>
-        {Array.from({ length: totalPages }, (_, index) => (
-          <Button
-            key={index + 1}
-            onClick={() => onPageChange(index + 1)}
-            variant={currentPage === index + 1 ? 'solid' : 'outline'}
-            bg={currentPage === index + 1 ? '#C43F6D' : ''}
-            textColor={currentPage === index + 1 ? '#FAFAFA' : ''}
-          >
-            {index + 1}
-          </Button>
-        ))}
-      </HStack>
+      <HStack spacing={2}>{renderPageButtons()}</HStack>
       <Button
         onClick={handleNextPage}
         disabled={currentPage === totalPages}
