@@ -16,8 +16,10 @@ export default function ProductCounter({ initial, stock, onAdd }) {
   console.log('render')
   return (
     <Flex
-      marginTop='20px'
       justifyContent='space-between'
+      maxWidth={{ base: '100%', md: '100%', lg: '50%' }}
+      margin={{ base: '20px auto', md: '20px auto', lg: '20px 0px' }}
+      gap='10px'
     >
       <Flex>
         <Box
