@@ -8,5 +8,6 @@
   "semi": false,
   "trailingComma": "none",
   "tabWidth": 2,
-  "singleQuote": true
+  "singleQuote": true,
+  "singleAttributePerLine": true
 }
