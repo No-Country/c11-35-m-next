@@ -28,32 +28,15 @@ export default function Home() {
     }
   }, [])
 
-  useEffect(() => {
-    setSearchedData(null) // Restablecer los datos de búsqueda al cambiar de página
-  }, [currentPage])
-
   const cardColumns = useBreakpointValue({ base: 1, sm: 2, md: 4 })
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   // const [searchedData, setSearchedData] = useState(null) // Nuevo estado para los datos de búsqueda
-  const [searchedData, setSearchedData] = useState([])
-  const currentItems =
-    searchedData && searchedData.length > 0
-      ? searchedData.slice(indexOfFirstItem, indexOfLastItem)
-      : data && data.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(
-    (searchedData && searchedData.length > 0
-      ? searchedData.length
-      : data && data.length) / itemsPerPage
-  )
+  const currentItems = data && data.slice(indexOfFirstItem, indexOfLastItem)
+  const totalPages = Math.ceil((data && data.length) / itemsPerPage)
 
   const handlePageChange = page => {
     setCurrentPage(page)
-  }
-
-  const handleSearch = searchData => {
-    setSearchedData(searchData)
-    setCurrentPage(1) // Restablecer la página actual a 1 al aplicar el filtro de búsqueda
   }
 
   const handleClick = productId => {
@@ -71,10 +54,6 @@ export default function Home() {
           <Image
             src='images/carousel1.jpg'
             alt='Descripción de la imagen'
-          />
-          <SearchBar
-            data={data}
-            search={handleSearch}
           />
           <SimpleGrid
             columns={cardColumns}

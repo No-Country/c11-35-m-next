@@ -11,22 +11,20 @@ import {
   IconButton,
   useBreakpointValue,
   Text,
-  Icon,
-  useTheme,
-  Spacer
+  useTheme
 } from '@chakra-ui/react'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import NextLink from 'next/link'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { fetchData } from '@/store/reducers/data'
 import { BsCart2 } from 'react-icons/bs'
+import { SearchBar } from '../SearchBar/SearchBar'
 
 export default function Navbar() {
   const theme = useTheme()
   const textColor = theme.colors.custom.text
   const primaryColor = theme.colors.custom.primary
-  const backgroundColor = theme.colors.custom.background
   const { user } = useUser()
   const dispatch = useDispatch()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -37,7 +35,7 @@ export default function Navbar() {
   const isMobile = useBreakpointValue({ base: true, lg: false, sm: false })
 
   const handleClick = itemName => {
-    console.log(itemName)
+    // console.log(itemName)
     dispatch(fetchData(itemName))
   }
 
@@ -289,8 +287,9 @@ export default function Navbar() {
           <Box
             minH='73px'
             as='nav'
-            align='center'
-            justify='space-between'
+            display='flex'
+            alignItems='center'
+            justifyContent='space-between'
             width='100%'
             height='8%'
             padding={4}
@@ -310,18 +309,23 @@ export default function Navbar() {
               left={0}
             />
             <Box
+              display='flex'
+              alignItems='center'
+              justifyContent='center'
+              width='100%'
+            >
+              <SearchBar />
+            </Box>
+            <IconButton
+              color={textColor}
+              size='lg'
+              icon={<BsCart2 />}
+              variant='ghost'
+              onClick={toggleSidebar}
+              aria-label='Toggle Sidebar'
               position='absolute'
               right={0}
-            >
-              <IconButton
-                color={textColor}
-                size='lg'
-                icon={<BsCart2 />}
-                variant='ghost'
-                onClick={toggleSidebar}
-                aria-label='Toggle Sidebar'
-              />
-            </Box>
+            />
           </Box>
         </>
       )}
@@ -410,6 +414,14 @@ export default function Navbar() {
               </MenuList>
             </Menu>
           </Flex>
+          <Box
+            display='flex'
+            alignItems='center'
+            justifyContent='center'
+            width='100%'
+          >
+            <SearchBar />
+          </Box>
           <Flex alignItems='center'>
             {!user ? (
               <Button>

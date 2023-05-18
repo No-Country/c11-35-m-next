@@ -1,64 +1,79 @@
 import { useState } from 'react'
 import {
-  Button,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
-  InputRightAddon
+  InputRightAddon,
+  useTheme
 } from '@chakra-ui/react'
 import { Search2Icon } from '@chakra-ui/icons'
+import { fetchData } from '@/store/reducers/data'
+import { useDispatch } from 'react-redux'
 
-export const SearchBar = ({ data, search }) => {
-  const [value, setValue] = useState('')
+export const SearchBar = () => {
+  const theme = useTheme()
+  const textColor = theme.colors.custom.text
+  const primaryColor = theme.colors.custom.primary
+  const [value, setValue] = useState([])
+  const dispatch = useDispatch()
 
   const onChange = e => {
     setValue(e.target.value)
   }
 
   const handleSearch = () => {
-    const searchedData = data.filter(product => {
-      const nameLowerCase = product.name.toLowerCase()
-      return nameLowerCase.includes(value.toLowerCase())
-    })
-    search(searchedData) // Llamar a la función de búsqueda pasando los datos filtrados
+    dispatch(fetchData(value))
   }
 
   const handleOnSubmit = e => {
     e.preventDefault()
-    handleSearch() // Llamar a la función de búsqueda
+    handleSearch()
   }
 
   return (
     <>
       <InputGroup
-        borderRadius={5}
+        maxW='50%'
+        name='search'
         size='sm'
         as='form'
         onSubmit={handleOnSubmit}
       >
-        <InputLeftElement pointerEvents='none'>
-          <Search2Icon color='gray.600' />
-        </InputLeftElement>
+        <InputLeftElement pointerEvents='none' />
         <Input
           type='text'
+          name='search'
           placeholder='Search...'
-          border='1px solid #949494'
           value={value}
           onChange={onChange}
+          color='inherit'
+          borderColor='transparent'
+          bg='transparent'
+          _hover={{ bg: 'transparent' }}
+          _active={{ bg: 'transparent' }}
         />
+
         <InputRightAddon
           p={0}
-          border='none'
+          bg='none'
+          borderColor='transparent'
+          textColor={textColor}
         >
-          <Button
+          <IconButton
+            icon={
+              <Search2Icon
+                size='40px'
+                color={textColor}
+              />
+            }
+            color='inherit'
             type='submit'
-            size='sm'
-            borderLeftRadius={0}
-            borderRightRadius={3.3}
-            border='1px solid #949494'
-          >
-            Search
-          </Button>
+            borderColor='transparent'
+            bg='transparent'
+            _hover={{ bg: 'transparent' }}
+            _active={{ bg: 'transparent' }}
+          />
         </InputRightAddon>
       </InputGroup>
     </>
